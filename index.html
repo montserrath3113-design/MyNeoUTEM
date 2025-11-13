@@ -1,0 +1,158 @@
+<!-- index.html -->
+<!--
+  MyNeoUTEM — Versión liviana
+  Instrucciones rápidas:
+  - Cambia paleta: ver variables CSS en style.css (:root).
+  - Frases motivacionales: editar array `defaultPhrases` en script.js.
+  - Archivos: index.html, style.css, script.js (misma carpeta).
+-->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MyNeoUTEM — CyberDesk IA (Light)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">MyNeoUTEM</div>
+        <div class="tag">CyberDesk IA • Versión liviana</div>
+      </div>
+      <div class="controls">
+        <button id="toggleTheme" class="btn">Tema</button>
+        <button id="exportBtn" class="btn">Exportar</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none"/>
+        <button id="importBtn" class="btn">Importar</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <aside class="left">
+        <div class="card welcome">
+          <h1>👋 Bienvenido</h1>
+          <p class="lead">Organiza tus tareas y proyectos. Ajusta colores y recibe frases motivadoras.</p>
+          <div id="neoPhrase" class="neo-phrase">“Organiza tu mente, tus metas y tu energía — el futuro empieza hoy.”</div>
+        </div>
+
+        <div class="card notes">
+          <div class="card-header">Bloc de notas</div>
+          <textarea id="notesArea" placeholder="Apuntes rápidos..."></textarea>
+          <div class="notes-row">
+            <label>Fuente</label>
+            <select id="noteFont">
+              <option value="poppins">Poppins</option>
+              <option value="orbitron">Orbitron</option>
+            </select>
+            <div class="small">Guardado automático</div>
+          </div>
+        </div>
+
+        <div class="card settings">
+          <div class="card-header">Ajustes visuales</div>
+          <div class="row">
+            <label>Color primario</label>
+            <input id="colorPrimary" type="color" value="#003A70">
+          </div>
+          <div class="row">
+            <label>Color acento</label>
+            <input id="colorAccent" type="color" value="#8A2BE2">
+          </div>
+          <div class="row">
+            <label>Modo</label>
+            <select id="themeSelect"><option value="dark">Oscuro</option><option value="light">Claro</option></select>
+          </div>
+          <div class="row">
+            <button id="resetApp" class="btn danger">Resetear datos</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="center">
+        <div class="card progress">
+          <div class="card-header">Progreso</div>
+          <div class="progress-inner">
+            <div id="progressRing" class="progress-ring"></div>
+            <div class="progress-text">
+              <div id="progressPercent" class="percent">0%</div>
+              <div class="sub">Tareas completadas</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tasks">
+          <div class="card-header">
+            Gestor de tareas
+            <div class="actions">
+              <button id="addTaskBtn" class="btn">+ Tarea</button>
+              <select id="filterProject"><option value="all">Todos</option></select>
+              <select id="filterPriority"><option value="all">Todas</option><option value="high">Alta</option><option value="med">Media</option><option value="low">Baja</option></select>
+            </div>
+          </div>
+          <input id="searchTask" placeholder="Buscar tarea..." class="task-search"/>
+          <div id="tasksList" class="tasks-list"></div>
+        </div>
+      </section>
+
+      <aside class="right">
+        <div class="card projects">
+          <div class="card-header">Proyectos
+            <button id="addProject" class="btn small">+ Nuevo</button>
+          </div>
+          <div id="projectsList" class="projects-list"></div>
+        </div>
+
+        <div class="card alerts">
+          <div class="card-header">Alertas</div>
+          <div id="alertsList" class="alerts-list"><div class="empty">Sin alertas</div></div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">MyNeoUTEM • Guardado local • Versión liviana</footer>
+
+    <!-- Modal tarea -->
+    <div id="taskModal" class="modal hidden">
+      <div class="modal-card">
+        <h3 id="modalTitle">Crear tarea</h3>
+        <input id="taskTitle" placeholder="Título" />
+        <textarea id="taskDesc" placeholder="Descripción"></textarea>
+        <div class="row">
+          <input id="taskDue" type="date" />
+          <select id="taskPriority">
+            <option value="low">Baja</option><option value="med">Media</option><option value="high">Alta</option>
+          </select>
+        </div>
+        <div class="row">
+          <select id="taskProject"></select>
+        </div>
+        <div class="modal-actions">
+          <button id="saveTask" class="btn">Guardar</button>
+          <button id="cancelTask" class="btn ghost">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal proyecto -->
+    <div id="projectModal" class="modal hidden">
+      <div class="modal-card">
+        <h3 id="projectModalTitle">Nuevo proyecto</h3>
+        <input id="projectName" placeholder="Nombre del proyecto" />
+        <div class="row"><label>Color</label><input id="projectColor" type="color" value="#00b4ff"></div>
+        <div class="modal-actions">
+          <button id="saveProject" class="btn">Guardar</button>
+          <button id="cancelProject" class="btn ghost">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
